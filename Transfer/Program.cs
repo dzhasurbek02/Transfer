@@ -1,8 +1,6 @@
 using System.Reflection;
-using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Transfer.Common;
 using Transfer.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,9 +17,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
-builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 builder.Services.AddDbContext<ApplicationDBContext>(opt =>
     opt.UseNpgsql("Host=localhost;Port=5432;Database=Transfer;Username=postgres;Password=root"));
