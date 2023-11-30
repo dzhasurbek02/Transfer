@@ -8,11 +8,11 @@ namespace Transfer.Features.Transaction.Command.CreateTransaction;
 
 public class CreateTransactionCommandHandler : IRequestHandler<CreateTransactionCommand, bool>
 {
-    private readonly IApplicationDBContext _context;
+    private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
 
-    public CreateTransactionCommandHandler(IApplicationDBContext context, IMapper mapper, IMediator mediator)
+    public CreateTransactionCommandHandler(IApplicationDbContext context, IMapper mapper, IMediator mediator)
     {
         _context = context;
         _mapper = mapper;

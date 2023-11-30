@@ -19,10 +19,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-builder.Services.AddDbContext<ApplicationDBContext>(opt =>
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseNpgsql("Host=localhost;Port=5432;Database=Transfer;Username=postgres;Password=root"));
 
-builder.Services.AddScoped<IApplicationDBContext, ApplicationDBContext>();
+builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
 var app = builder.Build();
 

@@ -6,10 +6,10 @@ namespace Transfer.Features.User.Commands.CreateUser;
 
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand>
 {
-    private readonly IApplicationDBContext _context;
+    private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public CreateUserCommandHandler(IApplicationDBContext context, IMapper mapper)
+    public CreateUserCommandHandler(IApplicationDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;

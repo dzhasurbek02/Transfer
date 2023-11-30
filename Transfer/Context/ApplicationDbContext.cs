@@ -4,7 +4,7 @@ using Transfer.Entities;
 
 namespace Transfer.Context;
 
-public class ApplicationDBContext : DbContext, IApplicationDBContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     public DbSet<User> Users { get; set; }
     

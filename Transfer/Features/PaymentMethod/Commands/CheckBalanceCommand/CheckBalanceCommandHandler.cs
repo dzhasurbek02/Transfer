@@ -7,10 +7,10 @@ namespace Transfer.Features.PaymentMethod.Commands.CheckBalanceCommand;
 
 public class CheckBalanceCommandHandler : IRequestHandler<CheckBalanceCommand, bool>
 {
-    private readonly IApplicationDBContext _context;
+    private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public CheckBalanceCommandHandler(IApplicationDBContext context, IMapper mapper)
+    public CheckBalanceCommandHandler(IApplicationDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;

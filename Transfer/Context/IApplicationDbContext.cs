@@ -3,7 +3,7 @@ using Transfer.Entities;
 
 namespace Transfer.Context;
 
-public interface IApplicationDBContext
+public interface IApplicationDbContext
 {
     public DbSet<User> Users { get; set; }
     

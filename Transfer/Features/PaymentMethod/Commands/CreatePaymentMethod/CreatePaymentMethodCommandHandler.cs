@@ -6,10 +6,10 @@ namespace Transfer.Features.PaymentMethod.Commands.CreatePaymentMethod;
 
 public class CreatePaymentMethodCommandHandler : IRequestHandler<CreatePaymentMethodCommand, Guid>
 {
-    private readonly IApplicationDBContext _context;
+    private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public CreatePaymentMethodCommandHandler(IApplicationDBContext context, IMapper mapper)
+    public CreatePaymentMethodCommandHandler(IApplicationDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
