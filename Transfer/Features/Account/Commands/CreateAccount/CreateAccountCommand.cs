@@ -6,7 +6,7 @@ public class CreateAccountCommand : IRequest<Guid>
 {
     public Guid UserId { get; set; }
     
-    public string Type { get; set; }
+    public Guid CurrencyId { get; set; }
     
     public float Balance { get; set; }
 }
