@@ -18,7 +18,7 @@ public class CheckBalanceCommandHandler : IRequestHandler<Account.Commands.Check
     
     public async Task<bool> Handle(Account.Commands.CheckBalanceCommand.CheckBalanceCommand request, CancellationToken cancellationToken)
     {
-        var pm = await _context.PaymentMethods
+        var pm = await _context.Accounts
             .AsNoTracking()
             .Where(m => m.Id == request.Id)
             .FirstAsync(cancellationToken)

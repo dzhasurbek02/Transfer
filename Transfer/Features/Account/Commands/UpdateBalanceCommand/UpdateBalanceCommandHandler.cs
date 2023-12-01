@@ -18,7 +18,7 @@ public class UpdateBalanceCommandHandler : IRequestHandler<Account.Commands.Upda
 
     public async Task<bool> Handle(Account.Commands.UpdateBalanceCommand.UpdateBalanceCommand request, CancellationToken cancellationToken)
     {
-        var pm = await _context.PaymentMethods
+        var pm = await _context.Accounts
             .Where(m => m.Id == request.Id)
             .FirstAsync(cancellationToken)
                  ?? throw new Exception("Счёт не найден!");

@@ -19,7 +19,7 @@ public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand,
     {
         var pm = _mapper.Map<Entities.Account>(request);
 
-        _context.PaymentMethods.Add(pm);
+        _context.Accounts.Add(pm);
         await _context.SaveChangesAsync(cancellationToken);
 
         return pm.Id;
