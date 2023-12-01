@@ -4,7 +4,7 @@ using Transfer.Features.Account.Commands.CreateAccount;
 
 namespace Transfer.Controllers;
 
-[Route("api/paymentMethods")]
+[Route("api/currencies")]
 [ApiController]
 public class AccountController : ControllerBase
 {
