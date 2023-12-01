@@ -12,5 +12,5 @@ public class User : BaseEntity
     
     public string Password { get; set; }
     
-    public List<PaymentMethod> PaymentMethods { get; set; }
+    public List<Account> PaymentMethods { get; set; }
 }

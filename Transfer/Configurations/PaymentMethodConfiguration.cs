@@ -4,9 +4,9 @@ using Transfer.Entities;
 
 namespace Transfer.Configurations;
 
-public class PaymentMethodConfiguration : IEntityTypeConfiguration<PaymentMethod>
+public class PaymentMethodConfiguration : IEntityTypeConfiguration<Account>
 {
-    public void Configure(EntityTypeBuilder<PaymentMethod> builder)
+    public void Configure(EntityTypeBuilder<Account> builder)
     {
         builder.HasKey(pm => pm.Id);
 

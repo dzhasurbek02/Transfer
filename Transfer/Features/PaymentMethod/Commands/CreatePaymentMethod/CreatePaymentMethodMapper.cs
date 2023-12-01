@@ -6,6 +6,6 @@ public class CreatePaymentMethodMapper : Profile
 {
     public CreatePaymentMethodMapper()
     {
-        CreateMap<CreatePaymentMethodCommand, Entities.PaymentMethod>();
+        CreateMap<CreatePaymentMethodCommand, Entities.Account>();
     }
 }

@@ -17,7 +17,7 @@ public class CreatePaymentMethodCommandHandler : IRequestHandler<CreatePaymentMe
     
     public async Task<Guid> Handle(CreatePaymentMethodCommand request, CancellationToken cancellationToken)
     {
-        var pm = _mapper.Map<Entities.PaymentMethod>(request);
+        var pm = _mapper.Map<Entities.Account>(request);
 
         _context.PaymentMethods.Add(pm);
         await _context.SaveChangesAsync(cancellationToken);
