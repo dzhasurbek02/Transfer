@@ -17,13 +17,13 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
             .IsRequired();
 
         builder.HasOne<PaymentMethod>(t => t.Sender)
-            .WithMany(pm => pm.Transactions)
+            .WithMany()
             .HasForeignKey(t => t.SenderId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne<PaymentMethod>(t => t.Recipient)
-            .WithMany(pm => pm.Transactions)
+            .WithMany()
             .HasForeignKey(t => t.RecipientId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);

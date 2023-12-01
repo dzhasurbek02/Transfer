@@ -9,6 +9,4 @@ public class PaymentMethod : BaseEntity
     public string Type { get; set; }
     
     public float Balance { get; set; }
-    
-    public List<Transaction> Transactions { get; set; }
 }
