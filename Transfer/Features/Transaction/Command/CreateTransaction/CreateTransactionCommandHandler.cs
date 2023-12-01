@@ -32,6 +32,11 @@ public class CreateTransactionCommandHandler : IRequestHandler<CreateTransaction
             var updateBalanceCommandReceiver = new UpdateBalanceCommand { Id = request.RecipientId, Sum = request.Sum };
             await _mediator.Send(updateBalanceCommandReceiver, cancellationToken);
 
+            var tr = _mapper.Map<Entities.Transaction>(request);
+
+            _context.Transactions.Add(tr);
+            await _context.SaveChangesAsync(cancellationToken);
+
             return true;
         }
         else

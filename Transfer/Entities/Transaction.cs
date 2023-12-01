@@ -10,5 +10,5 @@ public class Transaction : BaseEntity
     
     public float Sum { get; set; }
     
-    public DateTime TransactionDate = DateTime.Now;
+    public DateTimeOffset TransactionDate = DateTimeOffset.Now.UtcDateTime;
 }
