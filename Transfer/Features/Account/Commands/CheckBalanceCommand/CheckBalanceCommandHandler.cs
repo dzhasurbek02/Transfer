@@ -3,9 +3,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Transfer.Context;
 
-namespace Transfer.Features.PaymentMethod.Commands.CheckBalanceCommand;
+namespace Transfer.Features.Account.Commands.CheckBalanceCommand;
 
-public class CheckBalanceCommandHandler : IRequestHandler<CheckBalanceCommand, bool>
+public class CheckBalanceCommandHandler : IRequestHandler<Account.Commands.CheckBalanceCommand.CheckBalanceCommand, bool>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -16,7 +16,7 @@ public class CheckBalanceCommandHandler : IRequestHandler<CheckBalanceCommand, b
         _mapper = mapper;
     }
     
-    public async Task<bool> Handle(CheckBalanceCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(Account.Commands.CheckBalanceCommand.CheckBalanceCommand request, CancellationToken cancellationToken)
     {
         var pm = await _context.PaymentMethods
             .AsNoTracking()

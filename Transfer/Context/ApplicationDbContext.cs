@@ -14,6 +14,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     
     public DbSet<Transaction> Transactions { get; set; }
     
+    public DbSet<Currency> Currencies { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

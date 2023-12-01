@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Transfer.Features.PaymentMethod.Commands.CheckBalanceCommand;
+namespace Transfer.Features.Account.Commands.CheckBalanceCommand;
 
 public class CheckBalanceCommand : IRequest<bool>
 {

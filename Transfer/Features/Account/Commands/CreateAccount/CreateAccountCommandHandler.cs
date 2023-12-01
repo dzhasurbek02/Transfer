@@ -2,20 +2,20 @@ using AutoMapper;
 using MediatR;
 using Transfer.Context;
 
-namespace Transfer.Features.PaymentMethod.Commands.CreatePaymentMethod;
+namespace Transfer.Features.Account.Commands.CreateAccount;
 
-public class CreatePaymentMethodCommandHandler : IRequestHandler<CreatePaymentMethodCommand, Guid>
+public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public CreatePaymentMethodCommandHandler(IApplicationDbContext context, IMapper mapper)
+    public CreateAccountCommandHandler(IApplicationDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
     
-    public async Task<Guid> Handle(CreatePaymentMethodCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
     {
         var pm = _mapper.Map<Entities.Account>(request);
 

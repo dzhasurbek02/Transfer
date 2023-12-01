@@ -1,8 +1,8 @@
 using MediatR;
 
-namespace Transfer.Features.PaymentMethod.Commands.CreatePaymentMethod;
+namespace Transfer.Features.Account.Commands.CreateAccount;
 
-public class CreatePaymentMethodCommand : IRequest<Guid>
+public class CreateAccountCommand : IRequest<Guid>
 {
     public Guid UserId { get; set; }
     
