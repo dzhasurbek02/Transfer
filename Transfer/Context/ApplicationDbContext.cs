@@ -10,10 +10,12 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     
     public DbSet<User> Users { get; set; }
     
-    public DbSet<Account> PaymentMethods { get; set; }
+    public DbSet<Account> Accounts { get; set; }
     
     public DbSet<Transaction> Transactions { get; set; }
     
+    public DbSet<Currency> Currencies { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

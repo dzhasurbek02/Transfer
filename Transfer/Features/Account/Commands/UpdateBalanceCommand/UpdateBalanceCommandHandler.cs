@@ -3,9 +3,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Transfer.Context;
 
-namespace Transfer.Features.PaymentMethod.Commands.UpdateBalanceCommand;
+namespace Transfer.Features.Account.Commands.UpdateBalanceCommand;
 
-public class UpdateBalanceCommandHandler : IRequestHandler<UpdateBalanceCommand, bool>
+public class UpdateBalanceCommandHandler : IRequestHandler<Account.Commands.UpdateBalanceCommand.UpdateBalanceCommand, bool>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -16,14 +16,14 @@ public class UpdateBalanceCommandHandler : IRequestHandler<UpdateBalanceCommand,
         _mapper = mapper;
     }
 
-    public async Task<bool> Handle(UpdateBalanceCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(Account.Commands.UpdateBalanceCommand.UpdateBalanceCommand request, CancellationToken cancellationToken)
     {
-        var pm = _context.PaymentMethods
+        var pm = await _context.Accounts
             .Where(m => m.Id == request.Id)
             .FirstAsync(cancellationToken)
                  ?? throw new Exception("Счёт не найден!");
 
-        pm.Result.Balance += request.Sum;
+        pm.Balance += request.Sum;
 
         await _context.SaveChangesAsync(cancellationToken);
         return await Task.FromResult(true);

@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Transfer.Context;
-using Transfer.Features.PaymentMethod.Commands.CheckBalanceCommand;
-using Transfer.Features.PaymentMethod.Commands.UpdateBalanceCommand;
+using Transfer.Features.Account.Commands.CheckBalanceCommand;
+using Transfer.Features.Account.Commands.UpdateBalanceCommand;
 
 namespace Transfer.Features.Transaction.Command.CreateTransaction;
 

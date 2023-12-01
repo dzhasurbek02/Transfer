@@ -12,7 +12,7 @@ using Transfer.Context;
 namespace Transfer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231201040218_Initial")]
+    [Migration("20231201111016_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace Transfer.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Transfer.Entities.PaymentMethod", b =>
+            modelBuilder.Entity("Transfer.Entities.Account", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,19 +34,35 @@ namespace Transfer.Migrations
                     b.Property<float>("Balance")
                         .HasColumnType("real");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("character varying(60)");
+                    b.Property<Guid>("CurrencyId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CurrencyId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("PaymentMethods");
+                });
+
+            modelBuilder.Entity("Transfer.Entities.Currency", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Currencies");
                 });
 
             modelBuilder.Entity("Transfer.Entities.Transaction", b =>
@@ -64,7 +80,7 @@ namespace Transfer.Migrations
                     b.Property<float>("Sum")
                         .HasColumnType("real");
 
-                    b.Property<DateTime>("TransactionDate")
+                    b.Property<DateTimeOffset>("TransactionDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -110,26 +126,34 @@ namespace Transfer.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Transfer.Entities.PaymentMethod", b =>
+            modelBuilder.Entity("Transfer.Entities.Account", b =>
                 {
+                    b.HasOne("Transfer.Entities.Currency", "Currency")
+                        .WithMany("Accounts")
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Transfer.Entities.User", "User")
-                        .WithMany("PaymentMethods")
+                        .WithMany("Accounts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Currency");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("Transfer.Entities.Transaction", b =>
                 {
-                    b.HasOne("Transfer.Entities.PaymentMethod", "Recipient")
+                    b.HasOne("Transfer.Entities.Account", "Recipient")
                         .WithMany()
                         .HasForeignKey("RecipientId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Transfer.Entities.PaymentMethod", "Sender")
+                    b.HasOne("Transfer.Entities.Account", "Sender")
                         .WithMany()
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -140,9 +164,14 @@ namespace Transfer.Migrations
                     b.Navigation("Sender");
                 });
 
+            modelBuilder.Entity("Transfer.Entities.Currency", b =>
+                {
+                    b.Navigation("Accounts");
+                });
+
             modelBuilder.Entity("Transfer.Entities.User", b =>
                 {
-                    b.Navigation("PaymentMethods");
+                    b.Navigation("Accounts");
                 });
 #pragma warning restore 612, 618
         }

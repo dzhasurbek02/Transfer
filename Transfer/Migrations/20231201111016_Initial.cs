@@ -12,6 +12,18 @@ namespace Transfer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Currencies",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Currencies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -33,12 +45,18 @@ namespace Transfer.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Type = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: false),
+                    CurrencyId = table.Column<Guid>(type: "uuid", nullable: false),
                     Balance = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PaymentMethods", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PaymentMethods_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currencies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PaymentMethods_Users_UserId",
                         column: x => x.UserId,
@@ -55,7 +73,7 @@ namespace Transfer.Migrations
                     SenderId = table.Column<Guid>(type: "uuid", nullable: false),
                     RecipientId = table.Column<Guid>(type: "uuid", nullable: false),
                     Sum = table.Column<float>(type: "real", nullable: false),
-                    TransactionDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    TransactionDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,6 +91,11 @@ namespace Transfer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentMethods_CurrencyId",
+                table: "PaymentMethods",
+                column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PaymentMethods_UserId",
@@ -98,6 +121,9 @@ namespace Transfer.Migrations
 
             migrationBuilder.DropTable(
                 name: "PaymentMethods");
+
+            migrationBuilder.DropTable(
+                name: "Currencies");
 
             migrationBuilder.DropTable(
                 name: "Users");
