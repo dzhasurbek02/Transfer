@@ -18,13 +18,13 @@ public class CheckBalanceCommandHandler : IRequestHandler<CheckBalanceCommand, b
     
     public async Task<bool> Handle(CheckBalanceCommand request, CancellationToken cancellationToken)
     {
-        var pm = _context.PaymentMethods
+        var pm = await _context.PaymentMethods
             .AsNoTracking()
             .Where(m => m.Id == request.Id)
             .FirstAsync(cancellationToken)
                  ?? throw new Exception("Счёт не найден!");
             
-        if (pm.Result.Balance >= request.Sum)
+        if (pm.Balance >= request.Sum)
         {
             return await Task.FromResult(true);
         }
