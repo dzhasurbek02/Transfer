@@ -18,12 +18,12 @@ public class UpdateBalanceCommandHandler : IRequestHandler<UpdateBalanceCommand,
 
     public async Task<bool> Handle(UpdateBalanceCommand request, CancellationToken cancellationToken)
     {
-        var pm = _context.PaymentMethods
+        var pm = await _context.PaymentMethods
             .Where(m => m.Id == request.Id)
             .FirstAsync(cancellationToken)
                  ?? throw new Exception("Счёт не найден!");
 
-        pm.Result.Balance += request.Sum;
+        pm.Balance += request.Sum;
 
         await _context.SaveChangesAsync(cancellationToken);
         return await Task.FromResult(true);
