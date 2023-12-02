@@ -1,7 +1,11 @@
 using System.Reflection;
-using MediatR;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Transfer.Context;
+using Transfer.Features.Account;
+using Transfer.Features.Currency;
+using Transfer.Features.Transaction;
+using Transfer.Features.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,13 +20,17 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAllOrigin", builder => builder.AllowAnyOrigin());
 });
 
-builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseNpgsql("Host=localhost;Port=5432;Database=Transfer;Username=postgres;Password=root"));
 
 builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICurrencyService, CurrencyService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 
 var app = builder.Build();
 

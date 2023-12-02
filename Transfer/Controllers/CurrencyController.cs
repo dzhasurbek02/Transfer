@@ -1,23 +1,35 @@
-using MediatR;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Transfer.Features.Currency.Commands;
+using Transfer.Features.Currency;
+using Transfer.Features.Currency.CreateCurrency;
 
 namespace Transfer.Controllers;
 
-[Route("api/paymentMethods")]
+[Route("api/currencies")]
 [ApiController]
 public class CurrencyController : ControllerBase
 {
-    private readonly IMediator _mediator;
+    private readonly ICurrencyService _service;
+    private readonly IValidator<CreateCurrencyRequest> _validatorCreate;
 
-    public CurrencyController(IMediator mediator)
+    public CurrencyController(ICurrencyService service, IValidator<CreateCurrencyRequest> validatorCreate)
     {
-        _mediator = mediator;
+        _service = service;
+        _validatorCreate = validatorCreate;
     }
     
     [HttpPost("create")]
-    public async Task<ActionResult> CreateCurrency([FromBody] CreateCurrencyCommand command)
+    public async Task<ActionResult> CreateCurrency([FromBody] CreateCurrencyRequest request)
     {
-        return Ok(await _mediator.Send(command));
+        var result = await _validatorCreate.ValidateAsync(request);
+
+        if (result.IsValid)
+        {
+            await _service.CreateCurrency(request);
+
+            return Ok("Currency successfully created!");
+        }
+
+        return BadRequest(result.Errors.Select(e => e.ErrorMessage));
     }
 }

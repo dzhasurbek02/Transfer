@@ -1,6 +1,8 @@
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Transfer.Features.User.Commands.CreateUser;
+using Transfer.Features.User;
+using Transfer.Features.User.CreateUser;
 
 namespace Transfer.Controllers;
 
@@ -8,16 +10,27 @@ namespace Transfer.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly IMediator _mediator;
+    private readonly IUserService _service;
+    private readonly IValidator<CreateUserRequest> _validatorCreate;
 
-    public UserController(IMediator mediator)
+    public UserController(IUserService service, IValidator<CreateUserRequest> validatorCreate)
     {
-        _mediator = mediator;
+        _service = service;
+        _validatorCreate = validatorCreate;
     }
     
     [HttpPost("create")]
-    public async Task<ActionResult> CreateUser([FromBody] CreateUserCommand command)
+    public async Task<ActionResult> CreateUser([FromBody] CreateUserRequest request)
     {
-        return Ok(await _mediator.Send(command));
+        var result = await _validatorCreate.ValidateAsync(request);
+
+        if (result.IsValid)
+        {
+            await _service.CreateUser(request);
+
+            return Ok("User successfully created!");
+        }
+
+        return BadRequest(result.Errors.Select(e => e.ErrorMessage));
     }
 }

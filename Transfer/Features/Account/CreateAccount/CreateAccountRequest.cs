@@ -1,8 +1,6 @@
-using MediatR;
+namespace Transfer.Features.Account.CreateAccount;
 
-namespace Transfer.Features.Account.Commands.CreateAccount;
-
-public class CreateAccountCommand : IRequest<Guid>
+public class CreateAccountRequest
 {
     public Guid UserId { get; set; }
     

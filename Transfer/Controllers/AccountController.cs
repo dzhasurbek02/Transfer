@@ -1,23 +1,35 @@
-using MediatR;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Transfer.Features.Account.Commands.CreateAccount;
+using Transfer.Features.Account;
+using Transfer.Features.Account.CreateAccount;
 
 namespace Transfer.Controllers;
 
-[Route("api/currencies")]
+[Route("api/accounts")]
 [ApiController]
 public class AccountController : ControllerBase
 {
-    private readonly IMediator _mediator;
+    private readonly IAccountService _service;
+    private readonly IValidator<CreateAccountRequest> _validatorCreate;
 
-    public AccountController(IMediator mediator)
+    public AccountController(IAccountService service, IValidator<CreateAccountRequest> validatorCreate)
     {
-        _mediator = mediator;
+        _service = service;
+        _validatorCreate = validatorCreate;
     }
     
     [HttpPost("create")]
-    public async Task<ActionResult> CreateAccount([FromBody] CreateAccountCommand command)
+    public async Task<ActionResult> CreateAccount([FromBody] CreateAccountRequest request)
     {
-        return Ok(await _mediator.Send(command));
+        var result = await _validatorCreate.ValidateAsync(request);
+
+        if (result.IsValid)
+        {
+            await _service.CreateAccount(request);
+
+            return Ok("Account successfully created!");
+        }
+
+        return BadRequest(result.Errors.Select(e => e.ErrorMessage));
     }
 }

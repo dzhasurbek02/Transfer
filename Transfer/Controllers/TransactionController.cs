@@ -1,6 +1,7 @@
-using MediatR;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Transfer.Features.Transaction.Command.CreateTransaction;
+using Transfer.Features.Transaction;
+using Transfer.Features.Transaction.Requests;
 
 namespace Transfer.Controllers;
 
@@ -8,16 +9,27 @@ namespace Transfer.Controllers;
 [ApiController]
 public class TransactionController : ControllerBase
 {
-    private readonly IMediator _mediator;
+    private readonly ITransactionService _service;
+    private readonly IValidator<CreateTransactionRequest> _validatorCreate;
 
-    public TransactionController(IMediator mediator)
+    public TransactionController(ITransactionService service, IValidator<CreateTransactionRequest> validatorCreate)
     {
-        _mediator = mediator;
+        _service = service;
+        _validatorCreate = validatorCreate;
     }
     
     [HttpPost("create")]
-    public async Task<ActionResult> CreateTransaction([FromBody] CreateTransactionCommand command)
+    public async Task<ActionResult> CreateTransaction([FromBody] CreateTransactionRequest request)
     {
-        return Ok(await _mediator.Send(command));
+        var result = await _validatorCreate.ValidateAsync(request);
+
+        if (result.IsValid)
+        {
+            await _service.CreateTransaction(request);
+
+            return Ok("Transaction completed successfully!");
+        }
+
+        return BadRequest(result.Errors.Select(e => e.ErrorMessage));
     }
 }

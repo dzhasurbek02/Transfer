@@ -1,8 +1,6 @@
-using MediatR;
+namespace Transfer.Features.User.CreateUser;
 
-namespace Transfer.Features.User.Commands.CreateUser;
-
-public class CreateUserCommand : IRequest
+public class CreateUserRequest
 {
     public string LastName { get; set; }
     
