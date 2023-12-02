@@ -4,7 +4,7 @@ using Transfer.Entities;
 
 namespace Transfer.Configurations;
 
-public class PaymentMethodConfiguration : IEntityTypeConfiguration<Account>
+public class AccountConfiguration : IEntityTypeConfiguration<Account>
 {
     public void Configure(EntityTypeBuilder<Account> builder)
     {
