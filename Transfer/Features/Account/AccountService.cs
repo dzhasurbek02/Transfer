@@ -47,6 +47,6 @@ public class AccountService : IAccountService
         account.Balance += request.Sum;
 
         await _context.SaveChangesAsync();
-        return await Task.FromResult(true);
+        return true;
     }
 }
