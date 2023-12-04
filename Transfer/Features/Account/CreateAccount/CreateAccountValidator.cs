@@ -15,10 +15,5 @@ public class CreateAccountValidator : AbstractValidator<CreateAccountRequest>
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .WithMessage("Поле CurrencyId не должно быть пустым!");
-
-        RuleFor(a => a.Balance)
-            .Cascade(CascadeMode.Stop)
-            .NotEmpty()
-            .WithMessage("Поле Balance не должно быть пустым!");
     }
 }
