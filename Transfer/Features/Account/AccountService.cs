@@ -31,22 +31,17 @@ public class AccountService : IAccountService
         var account = await _context.Accounts
             .AsNoTracking()
             .Where(m => m.Id == request.Id)
-            .FirstAsync()
+            .FirstOrDefaultAsync()
                  ?? throw new Exception("Счёт не найден!");
-            
-        if (account.Balance >= request.Sum)
-        {
-            return await Task.FromResult(true);
-        }
 
-        return await Task.FromResult(false);
+        return account.Balance >= request.Sum;
     }
 
     public async Task<bool> UpdateBalance(UpdateBalanceRequest request)
     {
         var account = await _context.Accounts
             .Where(m => m.Id == request.Id)
-            .FirstAsync()
+            .FirstOrDefaultAsync()
                  ?? throw new Exception("Счёт не найден!");
 
         account.Balance += request.Sum;
