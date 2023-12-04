@@ -35,14 +35,12 @@ public class TransactionService : ITransactionService
 
             var tr = _mapper.Map<Entities.Transaction>(request);
 
-            _context.Transactions.Add(tr);
+            await _context.Transactions.AddAsync(tr);
             await _context.SaveChangesAsync();
 
             return true;
         }
-        else
-        {
-            return false;
-        }
+        
+        return false;
     }
 }
