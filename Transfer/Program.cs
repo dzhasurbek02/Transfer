@@ -2,8 +2,10 @@ using System.Reflection;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Transfer.Context;
+using Transfer.Entities;
 using Transfer.Features.Account;
 using Transfer.Features.Currency;
+using Transfer.Features.ExchangeRate;
 using Transfer.Features.Transaction;
 using Transfer.Features.User;
 
@@ -31,6 +33,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<IExchangeRateService, ExchangeRateService>();
 
 var app = builder.Build();
 

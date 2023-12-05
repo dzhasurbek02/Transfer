@@ -15,6 +15,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Transaction> Transactions { get; set; }
     
     public DbSet<Currency> Currencies { get; set; }
+    
+    public DbSet<ExchangeRate> ExchangeRates { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

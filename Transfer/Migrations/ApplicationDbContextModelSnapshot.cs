@@ -62,6 +62,30 @@ namespace Transfer.Migrations
                     b.ToTable("Currencies");
                 });
 
+            modelBuilder.Entity("Transfer.Entities.ExchangeRate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("Currency1Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("Currency2Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<float>("Rate")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Currency1Id");
+
+                    b.HasIndex("Currency2Id");
+
+                    b.ToTable("ExchangeRates");
+                });
+
             modelBuilder.Entity("Transfer.Entities.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
@@ -140,6 +164,25 @@ namespace Transfer.Migrations
                     b.Navigation("Currency");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Transfer.Entities.ExchangeRate", b =>
+                {
+                    b.HasOne("Transfer.Entities.Currency", "CurrencySender")
+                        .WithMany()
+                        .HasForeignKey("Currency1Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Transfer.Entities.Currency", "CurrencyRecipient")
+                        .WithMany()
+                        .HasForeignKey("Currency2Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CurrencyRecipient");
+
+                    b.Navigation("CurrencySender");
                 });
 
             modelBuilder.Entity("Transfer.Entities.Transaction", b =>
