@@ -76,7 +76,7 @@ public class TransactionService : ITransactionService
 
             return true;
         }
-        
-        return false;
+
+        throw new Exception("Недостаточно средств на балансе!");
     }
 }
