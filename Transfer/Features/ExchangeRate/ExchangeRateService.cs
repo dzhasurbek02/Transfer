@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Transfer.Context;
 using Transfer.Features.ExchangeRate.CreateExchangeRate;
 using Transfer.Features.ExchangeRate.GetAllExchangeRates;
+using Transfer.Features.ExchangeRate.GetExchangeRate;
 using Transfer.Features.ExchangeRate.UpdateExchangeRate;
 
 namespace Transfer.Features.ExchangeRate;
@@ -43,5 +44,20 @@ public class ExchangeRateService : IExchangeRateService
             .ProjectTo<GetExchangeRatesResponse>(_mapper.ConfigurationProvider)
             .ToListAsync()
                 ?? throw new Exception("Список курса валют пуст!");
+    }
+
+    public async Task<float> GetExchangeRate(GetExchangeRateRequest request)
+    {
+        var exchangeRate = await _context.ExchangeRates
+            .Where(e => e.Currency1Id == request.SenderCurrencyId && e.Currency2Id == request.RecipientCurrencyId)
+            .Select(e => e.Rate)
+            .FirstOrDefaultAsync();
+
+        if (exchangeRate <= 0)
+        {
+            throw new Exception("Не удалось найти обменный курс для указанных валют.");
+        }
+
+        return exchangeRate;
     }
 }
